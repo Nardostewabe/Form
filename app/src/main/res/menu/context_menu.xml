@@ -5,6 +5,6 @@
         android:title="bold"
         />
     <item
-        android:id="@+id/italian"
-        android:title="italian"/>
+        android:id="@+id/italic"
+        android:title="italic"/>
 </menu>

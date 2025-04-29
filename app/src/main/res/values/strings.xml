@@ -18,4 +18,7 @@
         <item>Other</item>
     </string-array>
     <string name="success">Form Submitted!</string>
+    <string name="diTitle">Are you sure you want to sign up?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

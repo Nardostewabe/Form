@@ -19,4 +19,7 @@
         <item>Other</item>
     </string-array>
     <string name="success">ቅጹ ተሞልቷል</string>
+    <string name="diTitle">ለማስገባት እርግተኛ ነዎት?</string>
+    <string name="yes">አዎ</string>
+    <string name="no">አይ</string>
 </resources>

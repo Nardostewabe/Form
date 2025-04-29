@@ -3,16 +3,19 @@ package com.example.form;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -27,10 +30,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.example.form.R;
+
 
 import com.example.form.databinding.ActivityMainBinding;
 
@@ -42,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     Spinner spinner;
     EditText datePicker;
-    TextView formTitle;
     int pickImageRequest = 100;
     Uri selectedImageUri;
     String name,email,phone,date;
@@ -71,9 +76,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(() -> {
             spinner.setAdapter(adapter);
             loading.setVisibility(View.GONE);
-        }, 1000);
-
-
+        }, 3000);
 
         datePicker = binding.dateOfBirth;
         datePicker.setOnClickListener(v -> {
@@ -112,29 +115,41 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.signUp.setOnClickListener(v->{
-            name = binding.userName.getText().toString();
-            email = binding.email.getText().toString();
-            phone = binding.phNumber.getText().toString();
-            date = binding.dateOfBirth.getText().toString();
+            AlertDialog.Builder build = new AlertDialog.Builder(this);
+            build.setTitle(getString(R.string.diTitle))
+                    .setPositiveButton(getString(R.string.yes),(dialog,i)->{
+                        name = binding.userName.getText().toString();
+                        email = binding.email.getText().toString();
+                        phone = binding.phNumber.getText().toString();
+                        date = binding.dateOfBirth.getText().toString();
 
-            int selectedGenderId = binding.genderGroup.getCheckedRadioButtonId();
-            RadioButton genderButton = findViewById(selectedGenderId);
-            gender = (genderButton != null) ? genderButton.getText().toString() : "Not specified";
+                        int selectedGenderId = binding.genderGroup.getCheckedRadioButtonId();
+                        RadioButton genderButton = findViewById(selectedGenderId);
+                        gender = (genderButton != null) ? genderButton.getText().toString() : "Not specified";
 
-            country = spinner.getSelectedItem().toString();
+                        country = spinner.getSelectedItem().toString();
 
-            Intent intent = new Intent(this, ResultActivity.class);
-            intent.putExtra("name",name);
-            intent.putExtra("email",email);
-            intent.putExtra("phone",phone);
-            intent.putExtra("date",date);
-            intent.putExtra("gender",gender);
-            intent.putExtra("country",country);
-            if(selectedImageUri!=null){
-                intent.putExtra("imageUri",selectedImageUri.toString());
-            }
-            launcher.launch(intent);
+                        Intent intent = new Intent(this, ResultActivity.class);
+                        intent.putExtra("name",name);
+                        intent.putExtra("email",email);
+                        intent.putExtra("phone",phone);
+                        intent.putExtra("date",date);
+                        intent.putExtra("gender",gender);
+                        intent.putExtra("country",country);
+                        if(selectedImageUri!=null){
+                            intent.putExtra("imageUri",selectedImageUri.toString());
+                        }
+                        launcher.launch(intent);
+                    })
+                    .setNegativeButton(getString(R.string.no),(dialog,i)->{
+                        dialog.cancel();
+                    });
+            AlertDialog dialog = build.create();
+            dialog.show();
         });
+
+        registerForContextMenu(binding.tvTitle);
+
     }
 
     @Override
@@ -173,10 +188,36 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater Inflater = getMenuInflater();
-        Inflater.inflate(R.menu.context_menu, menu);
+        getMenuInflater().inflate(R.menu.context_menu, menu);
+        Log.d("ContextMenu", "Menu created");
     }
 
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        View rootLayout = binding.getRoot();
+        int id = item.getItemId();
+
+        if (id == R.id.bold) {
+            applyFontStyle(rootLayout, Typeface.BOLD);
+            return true;
+        } else if (id == R.id.italic) {
+            applyFontStyle(rootLayout, Typeface.ITALIC);
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    public void applyFontStyle(View view,int style){
+        if (view instanceof TextView) {
+            TextView textView = (TextView) view;
+            textView.setTypeface(null, style);
+        } else if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                applyFontStyle(group.getChildAt(i), style);
+            }
+        }
+    }
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
