@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Form</string>
+    <string name="title">Sign Up Form</string>
+    <string name="name">User Name</string>
+    <string name="email">Email</string>
+    <string name="phNum">Phone Number</string>
+    <string name="dateOfBirth">Date Of Birth</string>
+    <string name="gender">Gender</string>
+    <string name="genMale">Male</string>
+    <string name="genFem">Female</string>
+    <string name="picUpload">Upload Picture</string>
+    <string name="signUp">Sign Up</string>
+    <string name="enterCountry">Country</string>
+    <string-array name="country">
+        <item>Ethiopia</item>
+        <item>USA</item>
+        <item>Kenya</item>
+        <item>Other</item>
+    </string-array>
+    <string name="success">Form Submitted!</string>
+</resources>

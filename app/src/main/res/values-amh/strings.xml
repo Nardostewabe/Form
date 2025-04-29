@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Form</string>
+    <string name="title">መመዝገቢያ ቅጽ</string>
+    <string name="name">ስም</string>
+    <string name="email">ኢማይል</string>
+    <string name="phNum">ስልክ ቁጥር</string>
+    <string name="gender">ጾታ</string>
+    <string name="dateOfBirth">የውልደት ቀን</string>
+    <string name="genMale">ወንድ</string>
+    <string name="genFem">ሴት</string>
+    <string name="picUpload">ፎቶ አስገባ</string>
+    <string name="signUp">ተመዝገብ</string>
+    <string name="enterCountry">ሀገር</string>
+    <string-array name="country">
+        <item>ኢትዮጵያ</item>
+        <item>USA</item>
+        <item>Kenya</item>
+        <item>Other</item>
+    </string-array>
+    <string name="success">ቅጹ ተሞልቷል</string>
+</resources>
